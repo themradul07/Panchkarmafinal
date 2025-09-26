@@ -76,6 +76,8 @@ const LoginForm = () => {
           // Redirect based on role
           if (user.role === "therapist") {
             navigate("/therapist-dashboard");
+          } else if( user.role === 'admin' ){
+            navigate("/admin/dashboard");
           } else {
             navigate("/therapists"); // Redirect to Find Your Therapists page
           }
