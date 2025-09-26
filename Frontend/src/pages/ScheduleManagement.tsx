@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Sidebar,
   SidebarContent,
@@ -14,13 +15,12 @@ import {
   SidebarProvider,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import StatCard from "@/components/dashboard/StatCard";
-import RecentSessionsList from "@/components/dashboard/RecentSessionsList";
-import PendingNotificationsList from "@/components/dashboard/PendingNotificationsList";
-import { Users, Calendar, TrendingUp, Heart, LayoutDashboard, Bell, LogOut } from "lucide-react";
+import { LayoutDashboard, Calendar as CalendarIcon, Users, Bell, TrendingUp, LogOut, Plus, Eye, Filter } from "lucide-react";
+import { format } from "date-fns";
 
-const TherapistDashboard = () => {
+const ScheduleManagement = () => {
   const [user, setUser] = useState<any>(null);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,65 +48,24 @@ const TherapistDashboard = () => {
     navigate("/");
   };
 
+  const handleBackToDashboard = () => {
+    navigate("/therapist-dashboard");
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
 
-  // Sample data for demonstration
+  // Sample empty sessions data
   const sessions: {
     id: string;
     patientName: string;
     date: string;
     time: string;
-    room: string;
-    status: "completed" | "in-progress" | "pending";
-    notes?: string;
-  }[] = [
-    {
-      id: "1",
-      patientName: "Amit Patel",
-      date: "Sep 13, 2025",
-      time: "6:11 PM",
-      room: "Room 1",
-      status: "completed",
-      notes: "",
-    },
-    {
-      id: "2",
-      patientName: "Unknown Patient",
-      date: "Dec 19, 2024",
-      time: "4:00 PM",
-      room: "Room 3",
-      status: "completed",
-      notes: "Swedana therapy completed. Good detoxification response observed.",
-    },
-  ];
+    status: "scheduled" | "completed" | "cancelled";
+  }[] = [];
 
-  const notifications: {
-    id: string;
-    type: "follow-up" | "pre-treatment";
-    title: string;
-    description: string;
-    priority: "low" | "high";
-    sendDate: string;
-  }[] = [
-    {
-      id: "1",
-      type: "follow-up",
-      title: "Follow-up Check-in",
-      description: "How are you feeling after your recent Abhyanga therapy session? We'd love to hear about your progress and...",
-      priority: "low",
-      sendDate: "Dec 21, 10:00 AM",
-    },
-    {
-      id: "2",
-      type: "pre-treatment",
-      title: "Pre-Treatment Instructions - Abhyanga Session",
-      description: "Please remember to follow these instructions before your Abhyanga session tomorrow: - Avoid heavy meals...",
-      priority: "high",
-      sendDate: "Dec 20, 8:00 AM",
-    },
-  ];
+  const selectedDate = date ? format(date, "MMMM do, yyyy") : "";
 
   return (
     <SidebarProvider>
@@ -117,14 +76,14 @@ const TherapistDashboard = () => {
               <SidebarGroupLabel>Navigation</SidebarGroupLabel>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton>
+                  <SidebarMenuButton onClick={handleBackToDashboard}>
                     <LayoutDashboard className="h-4 w-4" />
                     <span>Dashboard</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton onClick={() => navigate('/therapist-dashboard/schedule')}>
-                    <Calendar className="h-4 w-4" />
+                  <SidebarMenuButton>
+                    <CalendarIcon className="h-4 w-4" />
                     <span>Schedule</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -167,16 +126,17 @@ const TherapistDashboard = () => {
         <SidebarInset className="p-6">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Therapist's Dashboard</h1>
-              <p className="text-gray-600">Welcome to your Panchakarma management center</p>
+              <h1 className="text-3xl font-bold text-gray-900">Panchakarma Manager</h1>
+              <p className="text-gray-600">Schedule Management</p>
             </div>
             <div className="flex gap-4">
               <Button variant="outline" className="flex items-center gap-2">
                 <Users className="w-5 h-5" />
                 Manage Patients
               </Button>
-              <Button onClick={() => navigate('/therapist-dashboard/schedule')} className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
-                + Schedule Session
+              <Button onClick={handleBackToDashboard} variant="outline" className="flex items-center gap-2">
+                <LayoutDashboard className="w-5 h-5" />
+                Back to Dashboard
               </Button>
               <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
                 <LogOut className="w-5 h-5" />
@@ -185,47 +145,52 @@ const TherapistDashboard = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-            <StatCard
-              title="Total Patients"
-              value={3}
-              description="+3 registered"
-              icon={Users}
-              iconBgColor="bg-blue-200"
-              iconColor="text-blue-700"
-            />
-            <StatCard
-              title="Today's Sessions"
-              value={0}
-              description="0 in progress"
-              icon={Calendar}
-              iconBgColor="bg-green-200"
-              iconColor="text-green-700"
-            />
-            <StatCard
-              title="Completion Rate"
-              value="100%"
-              description="4 completed"
-              icon={TrendingUp}
-              iconBgColor="bg-purple-200"
-              iconColor="text-purple-700"
-            />
-            <StatCard
-              title="Avg. Rating"
-              value={4.3}
-              description="3 reviews"
-              icon={Heart}
-              iconBgColor="bg-pink-200"
-              iconColor="text-pink-700"
+          {/* Date Selection */}
+          <div className="mb-6">
+            <div className="flex items-center gap-4 mb-4">
+              <CalendarIcon className="h-6 w-6 text-gray-500" />
+              <label className="text-sm font-medium text-gray-700">Select Date</label>
+            </div>
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              className="rounded-md border"
+              disabled={(date) =>
+                date > new Date() || date < new Date("1900-01-01")
+              }
             />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <RecentSessionsList sessions={sessions} />
-            </div>
+          {/* Sessions Header */}
+          <div className="flex justify-between items-center mb-6">
             <div>
-              <PendingNotificationsList notifications={notifications} />
+              <h2 className="text-xl font-semibold text-gray-900">Sessions {selectedDate}</h2>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="flex items-center gap-1">
+                <Filter className="h-4 w-4" />
+                All Status
+              </Button>
+              <Button variant="outline" size="sm" className="flex items-center gap-1">
+                <Eye className="h-4 w-4" />
+                View
+              </Button>
+              <Button size="sm" className="flex items-center gap-1 bg-green-600 hover:bg-green-700">
+                <Plus className="h-4 w-4" />
+                New Session
+              </Button>
+            </div>
+          </div>
+
+          {/* Sessions List */}
+          <div className="grid grid-cols-1 gap-6">
+            <div className="bg-white rounded-lg border shadow-sm p-6">
+              <div className="text-center py-12">
+                <CalendarIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No sessions scheduled</h3>
+                <p className="text-gray-500">There are no sessions scheduled for this date.</p>
+              </div>
             </div>
           </div>
         </SidebarInset>
@@ -234,4 +199,4 @@ const TherapistDashboard = () => {
   );
 };
 
-export default TherapistDashboard;
+export default ScheduleManagement;
