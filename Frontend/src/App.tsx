@@ -13,6 +13,10 @@ import TherapistListing from "./pages/TherapistListing";
 import TherapistProfile from "./pages/TherapistProfile";
 import TherapistDashboard from "./pages/TherapistDashboard";
 import BookingPage from "./pages/BookingPage";
+import Dashboard from "./pages/Admin/Dashboard";
+import Therapist from "./pages/Admin/Therapist";
+import Feedback from "./pages/Admin/Feedback";
+import Settings from "./pages/Admin/Settings";
 
 const queryClient = new QueryClient();
 
@@ -27,14 +31,26 @@ const App = () => (
 
         <Routes>
           <Route path="/" element={<Index />} />
-           <Route path="/consultants" element={<ConsultantsPage />} />
-          <Route path="/book-therapy" element={<BookTherapyPage />} />
-           <Route path="/login" element={<Login />} />
+
+          {/* Auth */}
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUpPage />} />
+
+          {/* Patient Routes */}
+          <Route path="/consultants" element={<ConsultantsPage />} />
+          <Route path="/book-therapy" element={<BookTherapyPage />} />
           <Route path="/therapists" element={<TherapistListing />} />
           <Route path="/therapists/:id" element={<TherapistProfile />} />
           <Route path="/therapists/:id/book" element={<BookingPage />} />
+
+          {/* Therapists Routeds */}
           <Route path="/therapist-dashboard" element={<TherapistDashboard />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/therapists" element={<Therapist />} />
+          <Route path="/admin/feedback" element={<Feedback />} />
+          <Route path="/admin/settings" element={<Settings />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
