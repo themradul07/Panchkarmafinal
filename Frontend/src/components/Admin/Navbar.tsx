@@ -1,5 +1,6 @@
 import { Home, Users, MessageSquare, Settings, LogOut } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
   const navItems = [
@@ -8,8 +9,41 @@ export default function Sidebar() {
     { name: "Feedback", icon: <MessageSquare size={18} />, path: "/admin/feedback" },
     { name: "Settings", icon: <Settings size={18} />, path: "/admin/settings" },
   ];
+   const [user, setUser] = useState<any>(null);
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      const currentUser = localStorage.getItem("currentUser");
+  
+      if (!token || !currentUser) {
+        navigate("/login");
+        return;
+      }
+  
+      const parsedUser = JSON.parse(currentUser);
+      if (parsedUser.role !== "admin") {
+        navigate("/therapists");
+        return;
+      }
+  
+      setUser(parsedUser);
+    }, [navigate]);
+  
+    const handleLogout = () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
+      window.dispatchEvent(new Event("userLogout"));
+      navigate("/");
+    };
+  
+    if (!user) {
+      return <div>Loading...</div>;
+    }
 
   return (
+
+    
     <div className="h-screen  w-64 bg-gray-50  border-r border-gray-200 flex flex-col justify-between">
       {/* Top Logo Section */}
       <div>
@@ -44,7 +78,7 @@ export default function Sidebar() {
 
       {/* Logout Button */}
       <div className="p-6">
-        <button className="flex items-center gap-3 text-sm text-gray-700 hover:text-red-600 transition">
+        <button onClick={handleLogout} className="flex items-center gap-3 text-sm text-gray-700 hover:text-red-600 transition">
           <LogOut size={18} />
           Logout
         </button>
