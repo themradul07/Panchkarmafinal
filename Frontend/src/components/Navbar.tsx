@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Leaf } from "lucide-react";
 import logo from "../assets/logo.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   // Real auth: check for token in localStorage
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem('token'));
   });
 
+  const isHomePage = location.pathname === "/";
+
   // Listen for login/logout events to update navbar
-  useState(() => {
+  useEffect(() => {
     const updateLoginState = () => setIsLoggedIn(Boolean(localStorage.getItem('token')));
     window.addEventListener('userLogin', updateLoginState);
     window.addEventListener('userLogout', updateLoginState);
@@ -67,14 +70,20 @@ return (
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            {isLoggedIn ? (
-              <Button onClick={handleLogout}>
-                Logout
-              </Button>
-            ) : (
-              <Button onClick={() => navigate("/signup")}> 
+            {isHomePage ? (
+              <Button size="lg" onClick={() => navigate("/signup")}>
                 Book Your Appointment
               </Button>
+            ) : (
+              isLoggedIn ? (
+                <Button size="lg" onClick={handleLogout}>
+                  Logout
+                </Button>
+              ) : (
+                <Button size="lg" onClick={() => navigate("/signup")}>
+                  Book Your Appointment
+                </Button>
+              )
             )}
           </div>
 
@@ -105,20 +114,32 @@ return (
               </a>
             ))}
             <div className="flex flex-col space-y-2 pt-4">
-              {isLoggedIn ? (
-                <Button variant="outline" size="sm" onClick={handleLogout}>
-                  Logout
+              {isHomePage ? (
+                <Button
+                  size="default"
+                  className="bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary text-primary-foreground"
+                  onClick={() => navigate("/signup")}
+                >
+                  Book Your Appointment
                 </Button>
               ) : (
-                <Button variant="outline" size="sm" onClick={() => navigate("/signup")}>Login</Button>
+                <>
+                  {isLoggedIn ? (
+                    <Button variant="outline" size="default" onClick={handleLogout}>
+                      Logout
+                    </Button>
+                  ) : (
+                    <Button variant="outline" size="default" onClick={() => navigate("/signup")}>Login</Button>
+                  )}
+                  <Button
+                    size="default"
+                    className="bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary text-primary-foreground"
+                    onClick={() => navigate("/therapists")}
+                  >
+                    Book Appointment
+                  </Button>
+                </>
               )}
-              <Button
-                size="sm"
-                className="bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary text-primary-foreground"
-                onClick={() => navigate("/therapists")}
-              >
-                Book Appointment
-              </Button>
             </div>
           </div>
         )}

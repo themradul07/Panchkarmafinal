@@ -1,5 +1,5 @@
-# TODO: Implement Separate Dashboard for Therapists
-
-- [x] Create TherapistDashboard.tsx page
-- [x] Add /therapist-dashboard route in App.tsx
-- [x] Update LoginForm.tsx to redirect therapists to /therapist-dashboard
+- [x] Add negative top margin to Hero content container for upward shift
+- [ ] Test visual positioning
+- [x] Update desktop CTA buttons to size="lg"
+- [x] Update mobile CTA buttons to size="default"
+- [ ] Test button sizes on desktop and mobile

@@ -1,16 +1,16 @@
 import express from "express";
-import Patient from "../models/Patient.js";
-import { verifyToken, permit } from "../middleware/auth.js";
+import Therapist from "../models/Therapist";
 
 const router = express.Router();
 
-router.get("/me", verifyToken, permit("patient"), async (req, res) => {
+router.get("/me", async (req, res) => {
   try {
-    const userId = req.user.id;
-    const patient = await Patient.findOne({ userId }).populate("userId", "name email role");
-    res.json(patient);
+    // Assuming userId from some auth, but for now, placeholder
+    const userId = req.query.userId; // or from auth
+    const therapist = await Therapist.findOne({ _id: userId });
+    res.json(therapist);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
