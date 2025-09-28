@@ -32,6 +32,14 @@ const Navbar = () => {
     navigate('/');
   };
 
+  const handleNavClick = (href: string) => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    } else {
+      navigate(href);
+    }
+  };
+
   const handleScroll = (section: string) => {
     const elementId = section.toLowerCase();
     if (isHomePage) {
@@ -85,16 +93,27 @@ return (
                     {item.name}
                   </button>
                 );
+              } else if (item.name === "Consultation" || item.name === "Therapists" || item.name === "Dashboard") {
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => handleNavClick(item.href)}
+                    className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
+                  >
+                    {item.name}
+                  </button>
+                );
+              } else {
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
+                  >
+                    {item.name}
+                  </a>
+                );
               }
-              return (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
-                >
-                  {item.name}
-                </a>
-              );
             })}
           </div>
 
@@ -144,17 +163,28 @@ return (
                     {item.name}
                   </button>
                 );
+              } else if (item.name === "Consultation" || item.name === "Therapists" || item.name === "Dashboard") {
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => { setIsOpen(false); handleNavClick(item.href); }}
+                    className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
+                  >
+                    {item.name}
+                  </button>
+                );
+              } else {
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                );
               }
-              return (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </a>
-              );
             })}
             <div className="flex flex-col space-y-2 pt-4">
               {isHomePage ? (
