@@ -32,12 +32,32 @@ const Navbar = () => {
     navigate('/');
   };
 
+  const handleScroll = (section: string) => {
+    const elementId = section.toLowerCase();
+    if (isHomePage) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  };
+
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Consultation", href: "/consultants" },
     { name: "Therapists", href: "/therapists" },
+    { name: "Testimonials", href: "#testimonials" },
+    { name: "Contact", href: "#contact" },
     { name: "Dashboard", href: "/dashboard" },
-   
+
   ];
 return (
     <nav className="sticky top-0 w-full bg-background/95 backdrop-blur-sm z-50 border-b border-border shadow-sm">
@@ -54,15 +74,28 @@ return (
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
-              >
-                {item.name}
-              </a>
-            ))}
+            {navItems.map((item) => {
+              if (item.name === "Testimonials" || item.name === "Contact") {
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => handleScroll(item.name)}
+                    className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
+                  >
+                    {item.name}
+                  </button>
+                );
+              }
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-foreground hover:text-primary transition-colors duration-300 font-medium"
+                >
+                  {item.name}
+                </a>
+              );
+            })}
           </div>
 
           {/* Desktop CTA Buttons */}
@@ -100,16 +133,29 @@ return (
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4 space-y-4 border-t border-border animate-in slide-in-from-top-2 duration-300">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </a>
-            ))}
+            {navItems.map((item) => {
+              if (item.name === "Testimonials" || item.name === "Contact") {
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => { setIsOpen(false); handleScroll(item.name); }}
+                    className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
+                  >
+                    {item.name}
+                  </button>
+                );
+              }
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="block text-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </a>
+              );
+            })}
             <div className="flex flex-col space-y-2 pt-4">
               {isHomePage ? (
                 <Button
