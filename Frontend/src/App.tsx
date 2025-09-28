@@ -12,6 +12,10 @@ import ConsultantsPage from "./pages/ConsultantsPage";
 import TherapistListing from "./pages/TherapistListing";
 import TherapistProfile from "./pages/TherapistProfile";
 import TherapistDashboard from "./pages/TherapistDashboard";
+import ScheduleManagement from "./pages/ScheduleManagement";
+import PatientManagement from "./pages/PatientManagement";
+import ProgressTracking from "./pages/ProgressTracking";
+import NotificationCenter from "./pages/NotificationCenter";
 import BookingPage from "./pages/BookingPage";
 import Dashboard from "./pages/Admin/Dashboard";
 import Therapist from "./pages/Admin/Therapist";
@@ -47,6 +51,10 @@ const App = () => (
 
           {/* Therapists Routeds */}
           <Route path="/therapist-dashboard" element={<TherapistDashboard />} />
+          <Route path="/therapist-dashboard/schedule" element={<ScheduleManagement />} />
+          <Route path="/therapist-dashboard/patients" element={<PatientManagement />} />
+          <Route path="/therapist-dashboard/analytics" element={<ProgressTracking />} />
+          <Route path="/therapist-dashboard/notifications" element={<NotificationCenter />} />
 
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<Dashboard />} />
