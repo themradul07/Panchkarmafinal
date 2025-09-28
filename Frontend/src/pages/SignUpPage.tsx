@@ -46,7 +46,7 @@ const SignUpPage = () => {
       console.log("Signup Data (mapped):", payload);
 
       // API call to backend auth/register
-      const response = await axios.post("http://localhost:5000/api/auth/register", payload);
+      const response = await axios.post("https://panchkarmafinal-xd1o.onrender.com/api/auth/register", payload);
       const { token, user } = response.data;
 
       // Save JWT and user in localStorage

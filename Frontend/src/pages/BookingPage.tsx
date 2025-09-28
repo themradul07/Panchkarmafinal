@@ -93,7 +93,7 @@ const BookingForm = ({ therapist }: { therapist: Therapist }) => {
       status: "confirmed"
     };
     try {
-      await axios.post("http://localhost:5000/api/bookings", bookingPayload);
+      await axios.post("https://panchkarmafinal-xd1o.onrender.com/api/bookings", bookingPayload);
       setLoading(false);
       setSuccess(true);
       toast.success("Booking & payment successful!");
