@@ -33,14 +33,11 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Therapies", href: "#therapies" },
-    //  { name: "Therapists", href: "#therapists" },
-    
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Contact", href: "#contact" },
-    // { name: "Consultation", href: "#consultation" },
+    { name: "Home", href: "/" },
+    { name: "Consultation", href: "/consultants" },
+    { name: "Therapists", href: "/therapists" },
+    { name: "Dashboard", href: "/dashboard" },
+   
   ];
 return (
     <nav className="sticky top-0 w-full bg-background/95 backdrop-blur-sm z-50 border-b border-border shadow-sm">

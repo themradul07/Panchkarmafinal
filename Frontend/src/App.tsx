@@ -17,6 +17,7 @@ import Dashboard from "./pages/Admin/Dashboard";
 import Therapist from "./pages/Admin/Therapist";
 import Feedback from "./pages/Admin/Feedback";
 import Settings from "./pages/Admin/Settings";
+import PatientDashoard from "./pages/PatientDashboard";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/signup" element={<SignUpPage />} />
 
           {/* Patient Routes */}
+          <Route path="/dashboard" element={<PatientDashoard />} />
           <Route path="/consultants" element={<ConsultantsPage />} />
           <Route path="/book-therapy" element={<BookTherapyPage />} />
           <Route path="/therapists" element={<TherapistListing />} />
