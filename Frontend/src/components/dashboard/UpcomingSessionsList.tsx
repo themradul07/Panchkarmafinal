@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, Calendar, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -13,26 +13,26 @@ interface Session {
   notes?: string;
 }
 
-interface RecentSessionsListProps {
+interface UpcomingSessionsListProps {
   sessions: Session[];
 }
 
 const statusColorMap = {
-  completed: "bg-green-100 text-green-800",
   "in-progress": "bg-yellow-100 text-yellow-800",
-  pending: "bg-gray-100 text-gray-800",
+  pending: "bg-orange-100 text-orange-800",
+  completed: "bg-green-100 text-green-800", // Fallback, though unlikely for upcoming
 };
 
-const RecentSessionsList: React.FC<RecentSessionsListProps> = ({ sessions }) => {
+const UpcomingSessionsList: React.FC<UpcomingSessionsListProps> = ({ sessions }) => {
   return (
     <Card className="shadow-md rounded-lg">
       <CardHeader className="flex justify-between items-center">
-        <CardTitle className="text-green-700">Recent Sessions</CardTitle>
+        <CardTitle className="text-green-700">Upcoming Sessions</CardTitle>
         <button className="text-sm text-green-600 hover:underline">View All →</button>
       </CardHeader>
       <CardContent>
         {sessions.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">No recent sessions</p>
+          <p className="text-gray-500 text-center py-4">No upcoming sessions</p>
         ) : (
           <ul className="space-y-4">
             {sessions.map((session) => (
@@ -63,4 +63,4 @@ const RecentSessionsList: React.FC<RecentSessionsListProps> = ({ sessions }) => 
   );
 };
 
-export default RecentSessionsList;
+export default UpcomingSessionsList;

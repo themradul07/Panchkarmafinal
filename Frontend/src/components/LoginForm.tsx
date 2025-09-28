@@ -79,7 +79,7 @@ const LoginForm = () => {
           } else if( user.role === 'admin' ){
             navigate("/admin/dashboard");
           } else {
-            navigate("/therapists"); // Redirect to Find Your Therapists page
+            navigate("/dashboard"); // Redirect to Patient Dashboard
           }
         }
       } catch (error: any) {
