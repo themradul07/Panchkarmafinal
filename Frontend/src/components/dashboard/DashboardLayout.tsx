@@ -8,8 +8,9 @@ import { ProgressView } from "@/components/dashboard/ProgressView";
 import { NotificationsView } from "@/components/dashboard/NotificationsView";
 import { TipsView } from "@/components/dashboard/TipsView";
 import { ChatsView } from "@/components/dashboard/ChatsView";
+import { FeedbackView } from "@/components/dashboard/FeedbackView";
+import { ProfileView } from "@/components/dashboard/ProfileView";
 import wellnessBg from "@/assets/wellness-bg.jpg";
-import { ProfileSummary } from "./ProfileSummary";
 
 export const DashboardLayout = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -30,8 +31,10 @@ export const DashboardLayout = () => {
         return <TipsView />;
       case "chats":
         return <ChatsView />;
-      case "update":
-        return <ProfileSummary/>
+      case "feedback":
+        return <FeedbackView />;
+      case "profile":
+        return <ProfileView />;
       default:
         return <DashboardOverview />;
     }

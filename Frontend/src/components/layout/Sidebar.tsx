@@ -27,7 +27,8 @@ const sidebarItems = [
   { id: "notifications", label: "Notifications", icon: Bell },
   { id: "tips", label: "Tips & Guidance", icon: Lightbulb },
   { id: "chats", label: "Chats", icon: MessageSquare },
-  { id: "update", label: "Update Profile", icon: Edit },
+  { id: "feedback", label: "Feedback", icon: MessageSquare },
+  { id: "profile", label: "Profile", icon: Edit },
 ];
 
 export const Sidebar = ({ activeSection, onSectionChange }: SidebarProps) => {
