@@ -43,3 +43,13 @@
 - [x] Update Frontend/src/pages/ProgressTracking.tsx: Add onClick to sidebar "Notifications" item to navigate to /therapist-dashboard/notifications.
 - [x] Verify and test the implementation (run dev server, check navigation and page render).
 - [x] Mark all steps complete.
+
+# Navbar Authentication for Protected Routes
+
+## Steps:
+
+- [x] Add handleNavClick function to check login and navigate accordingly.
+- [x] Update desktop navigation to use button onClick for protected items (Consultation, Therapists, Dashboard).
+- [x] Update mobile navigation similarly.
+- [x] Test the navigation redirects to /login if not logged in.
+- [x] Mark all steps complete.
