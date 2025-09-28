@@ -24,6 +24,8 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+          wellness: "hsl(var(--primary))",              // green for confirmed
+       
 
         primary: {
           DEFAULT: "hsl(var(--primary))",
